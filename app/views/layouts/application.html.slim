@@ -11,5 +11,8 @@ html
     .app-title.navbar.navbar-expand-md.navbar-light.bg-light
       .navbar-brand Everleaf
     .container
+      - if flash.notice.present?
+        .alert.alert-success= flash.notice
+
       = yield
 
