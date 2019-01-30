@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2019_01_29_074703) do
   enable_extension "plpgsql"
 
   create_table "tasks", force: :cascade do |t|
-    t.string "name"
+    t.string "name", limit: 30, null: false
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
