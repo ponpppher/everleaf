@@ -18,12 +18,11 @@ describe 'タスク管理機能', type: :system do
     context 'ユーザーAがログインしている時' do
       before do
         # ユーザーAでログイン
-#        visit Rails.application.routes.url_helpers.login_path
         visit '/login'
 
         fill_in 'メールアドレス', with: 'test@gmail.com'
         fill_in 'パスワード', with: 'password'
-        expect(page).to have_content 'ログイン'
+        click_on 'ログインする'
       end
 
       it 'ユーザーAが作成したタスクが表示される' do
