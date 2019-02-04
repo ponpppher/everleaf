@@ -1,7 +1,10 @@
 class TasksController < ApplicationController
   before_action :set_task, only: %i[show edit update destroy]
   def index
-    @tasks = current_user.tasks.recent
+    # search query
+    @q = current_user.tasks.ransack(params[:q])
+    # return unique task
+    @tasks = @q.result(distinct: true)
   end
 
   def show;end
@@ -43,6 +46,16 @@ class TasksController < ApplicationController
   def destroy
     @task.destroy
     redirect_to tasks_url, notice: "タスク「#{@task.name}」を削除しました。"
+  end
+
+  # ransack params
+  # allow search columns
+  def self.ransackable_attributes(auth_object = nil)
+    %w[name created_at]
+  end
+
+  def self.ransackabel_associations(auth_object = nil)
+    []
   end
 
   private
