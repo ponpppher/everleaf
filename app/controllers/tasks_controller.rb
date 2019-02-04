@@ -12,6 +12,12 @@ class TasksController < ApplicationController
 
   def create
     @task = current_user.tasks.new(task_params)
+
+    if params[:back].present?
+      # newのテンプレートと値を返しているが、
+      # そのままだとifを抜けて下の処理にいってしまうため、returnが必要
+      return render :new
+    end
     
     if @task.save
       redirect_to tasks_url, notice: "タスク「#{@task.name}」を登録しました。"
@@ -21,6 +27,13 @@ class TasksController < ApplicationController
   end
 
   def edit;end
+
+  def confirm_new
+    # taskが検証を通らなかった場合,新規画面を返す
+    @task = current_user.tasks.new(task_params)
+    render :new unless @task.valid?
+  end
+
 
   def update
     @task.update!(task_params)
